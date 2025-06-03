@@ -15,12 +15,12 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="?page=instructor">
+                    <a href="?page=/instruct/instructor">
                         <i class="bi bi-circle"></i><span>Instructor</span>
                     </a>
                 </li>
                 <li>
-                    <a href="?page=major">
+                    <a href="?page=/maj/major">
                         <i class="bi bi-circle"></i><span>Major</span>
                     </a>
                 </li>
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="?page=user">
+                    <a href="?page=/usr/user">
                         <i class="bi bi-circle"></i><span>User</span>
                     </a>
                 </li>
