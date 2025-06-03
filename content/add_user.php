@@ -1,0 +1,61 @@
+<?php
+$userId = isset($_GET['edit']) ? $_GET['edit'] : '';
+if (isset($_POST['save'])) {
+    //ada tidak parameter bernama edit, kalau ada jalankan perintah edit, jika tidak maka akan menyimpan baru
+    $userName = $_POST['user_name'];
+    $userEmail = $_POST['user_email'];
+    $userPassword = $_POST['user_password'];
+    $userId = isset($_GET['edit']) ? $_GET['edit'] : '';
+    $queryInsert = mysqli_query($config, "INSERT INTO users (user_name, user_email, user_password) VALUES ('$userName', '$userEmail', '$userPassword')");
+    header("location:?page=user&add=success");
+
+    if (isset($_POST['edit'])) {
+        $queryUpdate = mysqli_query($config, "UPDATE users SET user_name='$userName', user_email='$userEmail', user_password='$userPassword' WHERE user_id = $userId");
+        header("location:?page=user&update=success");
+    }
+}
+$queryEdit = mysqli_query($config, "SELECT * FROM users WHERE user_id = $userId");
+$rowEdit = mysqli_fetch_assoc($queryEdit);
+
+
+if (isset($_GET['delete'])) {
+    $user_id = isset($_GET['delete']) ? $_GET['delete'] : '';
+    $queryDelete = mysqli_query($config, "UPDATE users SET deleted_at = 1 WHERE user_id = '$user_id'");
+    if ($queryDelete) {
+        header("location:?page=user&delete=success");
+    } else {
+        header("location:?page=user&delete=failed");
+    }
+}
+?>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add User</h5>
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" name="user_name" placeholder="Enter your Name"
+                            value="<?= isset($_GET['edit']) ? $rowEdit['user_name'] : '' ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Email *</label>
+                        <input type="email" class="form-control" name="user_email" placeholder="Enter your Email"
+                            value="<?= isset($_GET['edit']) ? $rowEdit['user_email'] : '' ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Password *</label>
+                        <input type="password" class="form-control" name="user_password"
+                            placeholder="Enter your Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-success" name="save" value="Save">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
