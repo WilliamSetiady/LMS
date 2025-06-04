@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2025 at 03:49 PM
+-- Generation Time: Jun 04, 2025 at 10:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,8 +45,29 @@ CREATE TABLE `instructors` (
 --
 
 INSERT INTO `instructors` (`instructor_id`, `instructor_name`, `instructor_gender`, `instructor_education`, `instructor_phone`, `instructor_email`, `instructor_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'afadfa', 1, 'adfadfa', 12312313, 'adfa@gmail.com', 'hgbhjbhj', '2025-06-03 12:59:34', NULL, 0),
-(2, 'Ted', 1, 'S2', 81346246, 'ted@gmail.com', 'Home', '2025-06-03 13:03:31', '2025-06-03 13:38:07', 0);
+(7, 'Ted', 1, 'S1', 2147483647, 'admin@gmail.com', 'Jalan Z No 6A RT013 RW008', '2025-06-04 08:15:44', NULL, 0),
+(8, 'afa', 0, 'S1', 2147483647, 'afa@gmail.com', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructor_major`
+--
+
+CREATE TABLE `instructor_major` (
+  `iM_id` int(11) NOT NULL,
+  `id_major` int(11) NOT NULL,
+  `id_instructor` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `instructor_major`
+--
+
+INSERT INTO `instructor_major` (`iM_id`, `id_major`, `id_instructor`, `created_at`, `updated_at`) VALUES
+(24, 4, 8, '2025-06-04 08:17:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -67,7 +88,8 @@ CREATE TABLE `majors` (
 --
 
 INSERT INTO `majors` (`major_id`, `major_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'Mobile Programming', '2025-06-03 13:48:18', NULL, 0);
+(3, 'Mobile Programming', '2025-06-03 13:48:18', NULL, 0),
+(4, 'Web Programming', '2025-06-04 07:03:10', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -109,6 +131,14 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `role_name`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', '2025-06-04 02:25:42', NULL),
+(2, 'User', '2025-06-04 02:25:42', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -117,6 +147,7 @@ CREATE TABLE `roles` (
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
+  `id_role` int(11) DEFAULT NULL,
   `user_name` varchar(100) NOT NULL,
   `user_email` varchar(50) NOT NULL,
   `user_password` varchar(100) NOT NULL,
@@ -129,13 +160,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'W', 'admin@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '2025-06-03 02:51:29', NULL, 0),
-(2, 'S', 's@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '2025-06-03 06:46:11', '2025-06-03 06:48:21', 0),
-(3, 'dfasfsda', 'adiprabowok@gmail.com', '123', '2025-06-03 07:24:06', '2025-06-03 07:54:34', 0),
-(4, 'abcde', 'abcde@gmail.com', '123', '2025-06-03 07:40:49', NULL, 0),
-(5, 'abcde', 'abcd@gmail.com', '123', '2025-06-03 07:54:07', '2025-06-03 13:04:17', 1),
-(6, 'a', 'a@gmail.com', '123', '2025-06-03 13:04:27', NULL, 0);
+INSERT INTO `users` (`user_id`, `id_role`, `user_name`, `user_email`, `user_password`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'Will', 'admin@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2025-06-03 02:51:29', '2025-06-04 03:11:06', 0),
+(2, NULL, 'S', 's@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '2025-06-03 06:46:11', '2025-06-04 01:39:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -146,6 +173,12 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_email`, `user_password`, `cre
 --
 ALTER TABLE `instructors`
   ADD PRIMARY KEY (`instructor_id`);
+
+--
+-- Indexes for table `instructor_major`
+--
+ALTER TABLE `instructor_major`
+  ADD PRIMARY KEY (`iM_id`);
 
 --
 -- Indexes for table `majors`
@@ -175,7 +208,8 @@ ALTER TABLE `roles`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `id_role_to_role_id` (`id_role`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -185,13 +219,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `instructor_major`
+--
+ALTER TABLE `instructor_major`
+  MODIFY `iM_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `majors`
 --
 ALTER TABLE `majors`
-  MODIFY `major_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `major_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `moduls`
@@ -209,13 +249,23 @@ ALTER TABLE `modul_details`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `id_role_to_role_id` FOREIGN KEY (`id_role`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

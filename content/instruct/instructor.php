@@ -27,6 +27,8 @@ $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
                                     <td><?= $instructor['instructor_name'] ?></td>
                                     <td><?= $instructor['instructor_email'] ?></td>
                                     <td class="d-flex justify-content-center">
+                                        <a href="?page=/instruct/add_instructor_major&id=<?= $instructor['instructor_id'] ?>"
+                                            class="btn btn-secondary me-2 ms-2">Add Major</a>
                                         <a href="?page=/instruct/add_instructor&edit=<?= $instructor['instructor_id'] ?>"
                                             class="btn btn-primary me-2 ms-2">Edit</a>
                                         <a onclick="return confirm('Are you Sure want to delete this data??')"

@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="?page=role">
+                    <a href="?page=/rol/role">
                         <i class="bi bi-circle"></i><span>Role</span>
                     </a>
                 </li>
