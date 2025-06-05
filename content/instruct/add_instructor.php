@@ -7,10 +7,15 @@ if (isset($_POST['save'])) {
     $instEd = $_POST['instructor_education'];
     $instPhone = $_POST['instructor_phone'];
     $instEmail = $_POST['instructor_email'];
+    $instPassword = sha1($_POST['instructor_password']);
     $instAddr = $_POST['instructor_address'];
     $instructorId = isset($_GET['edit']) ? $_GET['edit'] : '';
-    $queryInsert = mysqli_query($config, "INSERT INTO instructors (instructor_name, instructor_gender, instructor_education, instructor_phone, instructor_email, instructor_address) VALUES ('$instName','$instGender', '$instEd', '$instPhone', '$instEmail', '$instAddr')");
+    $queryInsert = mysqli_query($config, "INSERT INTO instructors (instructor_name, instructor_gender, instructor_education, instructor_phone, instructor_email, instructor_password instructor_address) VALUES ('$instName','$instGender', '$instEd', '$instPhone', '$instEmail', '$instPassword' '$instAddr')");
     header("location:?page=/instruct/instructor&add=success");
+}
+if (isset($_GET['edit'])) {
+    $queryEdit = mysqli_query($config, "SELECT * FROM instructors WHERE instructor_id = $instructorId");
+    $rowEdit = mysqli_fetch_assoc($queryEdit);
 }
 
 if (isset($_POST['edit'])) {
@@ -19,13 +24,10 @@ if (isset($_POST['edit'])) {
     $instEd = $_POST['instructor_education'];
     $instPhone = $_POST['instructor_phone'];
     $instEmail = $_POST['instructor_email'];
+    $instPassword = isset($_POST['instructor_password']) ? sha1($_POST['instructor_password']) : $rowEdit['instructor_password'];
     $instAddr = $_POST['instructor_address'];
-    $queryUpdate = mysqli_query($config, "UPDATE instructors SET instructor_name='$instName', instructor_gender='$instGender', instructor_education='$instEd', instructor_phone='$instPhone', instructor_email='$instEmail', instructor_address='$instAddr' WHERE instructor_id = $instructorId");
+    $queryUpdate = mysqli_query($config, "UPDATE instructors SET instructor_name='$instName', instructor_gender='$instGender', instructor_education='$instEd', instructor_phone='$instPhone', instructor_email='$instEmail', instructor_password='$instPassword', instructor_address='$instAddr' WHERE instructor_id = $instructorId");
     header("location:?page=/instruct/instructor&update=success");
-}
-if (isset($_GET['edit'])) {
-    $queryEdit = mysqli_query($config, "SELECT * FROM instructors WHERE instructor_id = $instructorId");
-    $rowEdit = mysqli_fetch_assoc($queryEdit);
 }
 
 
@@ -82,6 +84,16 @@ if (isset($_GET['delete'])) {
                                 <input type="email" class="form-control" name="instructor_email"
                                     placeholder="Enter your Email"
                                     value="<?= isset($_GET['edit']) ? $rowEdit['instructor_email'] : '' ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Password *</label>
+                                <input type="password" class="form-control" name="instructor_password"
+                                    placeholder="Enter your Password" <?= empty($instructorId) ? 'required' : ''; ?>>
+                                <?php if (isset($_GET['edit'])) : ?>
+                                    <small>
+                                        You can change your password by filling the above field
+                                    </small>
+                                <?php endif ?>
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Address *</label>

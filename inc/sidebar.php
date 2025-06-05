@@ -40,7 +40,7 @@
         <li class="nav-heading">Transaction</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
+            <a class="nav-link collapsed" href="?page=/mod/moduls">
                 <i class="bi bi-book"></i>
                 <span>Moduls</span>
             </a>

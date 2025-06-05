@@ -5,15 +5,21 @@ session_start();
 if (isset($_POST['user_email'])) {
     $email = $_POST['user_email'];
     $password = sha1($_POST['user_password']);
+    $role = $_POST['role'];
+    //jika login dengan role instructor
+    if ($role == 1) {
+        $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE instructor_email='$email' AND instructor_password='$password'");
+    } else {
+        //tampilkan semua data dari tabel user dimana email tersebut diambil dari orang yang input email dan password diambil dari orang yang input password
+        $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE user_email='$email' AND user_password='$password'");
+    }
 
-    //tampilkan semua data dari tabel user dimana email tersebut diambil dari orang yang input email dan password diambil dari orang yang input password
-    $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE user_email='$email' AND user_password='$password'");
     //jika data ditemukan, gunakan mysqli_num_rows("berisi hasil query")
     if (mysqli_num_rows($queryLogin) == 1) {
         //header("location:namafile.php") berfungsi untuk melakukan redirect/melempar ke halaman lain
         $rowLogin = mysqli_fetch_assoc($queryLogin);
-        $_SESSION['ID_USER'] = $rowLogin['user_id'];
-        $_SESSION['USER_NAME'] = $rowLogin['user_name'];
+        $_SESSION['ID_USER'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_id'] : $rowLogin['user_id'] : '';
+        $_SESSION['USER_NAME'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_name'] : $rowLogin['user_name'] : '';
         header("location:home.php");
     } else {
         header("location:index.php?login=error");
@@ -109,6 +115,17 @@ if (isset($_POST['user_email'])) {
                                             <input type="password" name="user_password" class="form-control"
                                                 id="yourPassword" required>
                                             <div class="invalid-feedback">Please enter your password!</div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="yourPassword" class="form-label">Password</label>
+                                            <select name="role" id="yourRole" class="form-control" required>
+                                                <option value="">Login as</option>
+                                                <option value="1">Instructor</option>
+                                                <option value="2">Student</option>
+                                                <option value="3">User</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select your Role!</div>
                                         </div>
 
                                         <div class="col-12">
