@@ -47,6 +47,28 @@ $queryInstructMajor = mysqli_query($config, "SELECT majors.major_name, instructo
                                                             WHERE instructor_major.id_instructor=$id_instructor");
 $rowInstructMajor = mysqli_fetch_all($queryInstructMajor, MYSQLI_ASSOC);
 
+if (isset($_POST['save'])) {
+    $idInstructor = $_POST['id_instructor'];
+    $idMajor = $_POST['id_major'];
+    $modulName = $_POST['modul_name'];
+    $queryInsert = mysqli_query($config, "INSERT INTO moduls (id_instructor, id_major, modul_name) VALUES ('$id_instructor', '$id_major', '$modul_name')");
+    if($queryInsert){
+        $idModul = mysqli_insert_id($config);
+        // $_FILES = 
+        foreach($_FILES['file']['modul_name'] as $index => $file){
+            if($_FILES['file']['error'][$index]==0){
+                $modulName = basename($_FILES['file']['modul_name'][$index]);
+                $fileName = uniqid() . "-" . $modulName;
+                $path = "Modul Files/";
+                $targetPath = $path . $fileName;
+
+                if(move_uploaded_file($_FILES['file']['tmp_name'][$index], $targetPath)){
+                    $insert
+                }
+            }
+        }
+    }
+}
 ?>
 
 <div class="row">
@@ -65,71 +87,68 @@ $rowInstructMajor = mysqli_fetch_all($queryInstructMajor, MYSQLI_ASSOC);
                         </div>
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="" class="form-label">Major Name</label>
-                                <select name="id_major" id="" class="form-control">
+                                <label for="" class="form-label">Modul Name</label>
+                                <select name="id_major" id="" class="form-control" required>
                                     <option value="">Select one--</option>
                                     <?php foreach ($rowInstructMajor as $rIM): ?>
-                                        <option value="<?= $rIM['id_major'] ?>"><?= $rIM['major_name'] ?></option>
+                                    <option value="<?= $rIM['id_major'] ?>"><?= $rIM['major_name'] ?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="mb-3">
-                        <label for="" class="form-label">Instructor Gender *</label>
-                        <div>
-
+                        <div class="col-sm-12">
                             <div class="mb-3">
-                                <input type="radio" name="instructor_gender" value="1"
-                                    <?= (isset($_GET['edit']) && $rowEdit['instructor_gender'] == '1') ? 'checked' : '' ?>
-                                    required> Laki-Laki
-                                <input type="radio" name="instructor_gender" value="0"
-                                    <?= (isset($_GET['edit']) && $rowEdit['instructor_gender'] == '0') ? 'checked' : '' ?>
-                                    required> Perempuan
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Instructor Education *</label>
-                                <input type="text" class="form-control" name="instructor_education"
-                                    placeholder="Enter your Name"
-                                    value="<?= isset($_GET['edit']) ? $rowEdit['instructor_education'] : '' ?>"
+                                <label for="" class="form-label">Major Name *</label>
+                                <input type="text" name="modul_name" class="form-control" placeholder="Enter new Modul"
                                     required>
                             </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Instructor Phone *</label>
-                                <input type="text" class="form-control" name="instructor_phone"
-                                    placeholder="Enter your Name"
-                                    value="<?= isset($_GET['edit']) ? $rowEdit['instructor_phone'] : '' ?>" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Email *</label>
-                                <input type="email" class="form-control" name="instructor_email"
-                                    placeholder="Enter your Email"
-                                    value="<?= isset($_GET['edit']) ? $rowEdit['instructor_email'] : '' ?>" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Password *</label>
-                                <input type="password" class="form-control" name="instructor_password"
-                                    placeholder="Enter your Password" <?= empty($instructorId) ? 'required' : ''; ?>>
-                                <?php if (isset($_GET['edit'])) : ?>
-                                    <small>
-                                        You can change your password by filling the above field
-                                    </small>
-                                <?php endif ?>
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Address *</label>
-                                <input type="text" class="form-control" name="instructor_address"
-                                    placeholder="Enter your Email"
-                                    value="<?= isset($_GET['edit']) ? $rowEdit['instructor_address'] : '' ?>" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="submit" class="btn btn-success"
-                                    name="<?= isset($instructorId) && $instructorId != '' ? 'edit' : 'save'; ?>"
-                                    value="<?= isset($instructorId) && $instructorId != '' ? 'Update' : 'Save'; ?>">
-                            </div> -->
+                        </div>
+
+                    </div>
+
+                    <div align="right" class="mb-3">
+                        <button type="button" class="btn btn-primary addRow" id="addRow">Add Row</button>
+                    </div>
+                    <table class="table" id="tableModul">
+                        <thead>
+                            <tr>
+                                <th>File</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-success"
+                            name="<?= isset($instructorId) && $instructorId != '' ? 'edit' : 'save'; ?>"
+                            value="<?= isset($instructorId) && $instructorId != '' ? 'Update' : 'Save'; ?>">
+                    </div>
 
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+//var, let, const
+//var: tidak ada nilai, maka akan error, let harus mempunyai nilai
+//const: nilai tidak boleh berubah/statis
+//const nama = "bambang";
+//nama = "udin";
+// const button = document.getElementById('addRow');
+// const button = document.getElementsByClassName('addRow');
+const button = document.querySelector('.addRow');
+const tbody = document.querySelector('#tableModul tbody');
+//mengganti content suatu variable
+// button.textContent = "duar";
+//jika text == add Row maka akan menjadi duar
+button.addEventListener("click", function() {
+    // alert('duar');
+    const tr = document.createElement("tr"); //membuat <tr></tr>
+    tr.innerHTML = `<td><input type='file' name='file[]'></td>
+        <td><button class='btn btn-danger'>Delete</button></td>`; //menambahkan <td></td> kedalam tr
+
+    tbody.appendChild(tr);
+})
+</script>

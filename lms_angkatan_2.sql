@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2025 at 10:21 AM
+-- Generation Time: Jun 10, 2025 at 04:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `instructors` (
   `instructor_education` varchar(30) NOT NULL,
   `instructor_phone` int(15) NOT NULL,
   `instructor_email` varchar(50) NOT NULL,
+  `instructor_password` varchar(100) NOT NULL,
   `instructor_address` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
@@ -44,9 +45,10 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`instructor_id`, `instructor_name`, `instructor_gender`, `instructor_education`, `instructor_phone`, `instructor_email`, `instructor_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'Ted', 1, 'S1', 2147483647, 'admin@gmail.com', 'Jalan Z No 6A RT013 RW008', '2025-06-04 08:15:44', NULL, 0),
-(8, 'afa', 0, 'S1', 2147483647, 'afa@gmail.com', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', NULL, 0);
+INSERT INTO `instructors` (`instructor_id`, `instructor_name`, `instructor_gender`, `instructor_education`, `instructor_phone`, `instructor_email`, `instructor_password`, `instructor_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7, 'Ted', 1, 'S1', 2147483647, 'ted@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-05 04:31:13', 0),
+(8, 'afa', 0, 'S1', 2147483647, 'afa@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', '2025-06-05 03:50:28', 0),
+(9, 'Afi', 0, 'S1', 2147483647, 'afi@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 7A RT013 RW008', '2025-06-05 03:47:47', '2025-06-05 03:54:36', 0);
 
 -- --------------------------------------------------------
 
@@ -67,7 +69,10 @@ CREATE TABLE `instructor_major` (
 --
 
 INSERT INTO `instructor_major` (`iM_id`, `id_major`, `id_instructor`, `created_at`, `updated_at`) VALUES
-(24, 4, 8, '2025-06-04 08:17:57', NULL);
+(31, 4, 7, '2025-06-05 01:18:04', NULL),
+(32, 4, 8, '2025-06-05 01:25:50', NULL),
+(36, 4, 9, '2025-06-05 07:00:42', NULL),
+(37, 5, 7, '2025-06-05 07:29:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,7 +94,8 @@ CREATE TABLE `majors` (
 
 INSERT INTO `majors` (`major_id`, `major_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (3, 'Mobile Programming', '2025-06-03 13:48:18', NULL, 0),
-(4, 'Web Programming', '2025-06-04 07:03:10', NULL, 0);
+(4, 'Web Programming', '2025-06-04 07:03:10', NULL, 0),
+(5, 'English', '2025-06-05 07:03:56', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -99,6 +105,8 @@ INSERT INTO `majors` (`major_id`, `major_name`, `created_at`, `updated_at`, `del
 
 CREATE TABLE `moduls` (
   `modul_id` int(11) NOT NULL,
+  `id_major` int(11) NOT NULL,
+  `id_instructor` int(11) NOT NULL,
   `modul_name` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -219,19 +227,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `instructor_major`
 --
 ALTER TABLE `instructor_major`
-  MODIFY `iM_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `iM_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `majors`
 --
 ALTER TABLE `majors`
-  MODIFY `major_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `major_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `moduls`
