@@ -3,6 +3,7 @@ session_start();
 ob_start();
 $_name = isset($_SESSION['USER_NAME']) ? $_SESSION['USER_NAME'] : '';
 $_id = isset($_SESSION['ID_USER']) ? $_SESSION['ID_USER'] : '';
+$_role = isset($_SESSION['ID_ROLE']) ? $_SESSION['ID_ROLE'] : '';
 
 if (!$_name) {
     header("location:index.php?access=failed");

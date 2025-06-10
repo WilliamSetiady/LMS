@@ -9,6 +9,8 @@ if (isset($_POST['user_email'])) {
     //jika login dengan role instructor
     if ($role == 1) {
         $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE instructor_email='$email' AND instructor_password='$password'");
+    } elseif ($role == 2) {
+        $queryLogin = mysqli_query($config, "SELECT * FROM students WHERE student_email='$email' AND student_password='$password'");
     } else {
         //tampilkan semua data dari tabel user dimana email tersebut diambil dari orang yang input email dan password diambil dari orang yang input password
         $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE user_email='$email' AND user_password='$password'");
@@ -18,8 +20,22 @@ if (isset($_POST['user_email'])) {
     if (mysqli_num_rows($queryLogin) == 1) {
         //header("location:namafile.php") berfungsi untuk melakukan redirect/melempar ke halaman lain
         $rowLogin = mysqli_fetch_assoc($queryLogin);
-        $_SESSION['ID_USER'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_id'] : $rowLogin['user_id'] : '';
-        $_SESSION['USER_NAME'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_name'] : $rowLogin['user_name'] : '';
+        $_SESSION['ID_USER'] = isset($role)
+            ? ($role == 1 ? $rowLogin['instructor_id']
+                : ($role == 2 ? $rowLogin['student_id']
+                    : $rowLogin['user_id']
+                )
+            )
+            : '';
+        $_SESSION['USER_NAME'] = isset($role)
+            ? ($role == 1 ? $rowLogin['instructor_name']
+                : ($role == 2 ? $rowLogin['student_name']
+                    : $rowLogin['user_name']
+                )
+            )
+            : '';
+        // $_SESSION['USER_NAME'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_name'] : ($role == 2) ? $rowLogin['student_name'] : $rowLogin['user_name'] : '';
+        $_SESSION['ID_ROLE'] = $role;
         header("location:home.php");
     } else {
         header("location:index.php?login=error");

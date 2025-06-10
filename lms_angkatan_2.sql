@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2025 at 04:26 AM
+-- Generation Time: Jun 10, 2025 at 10:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -112,6 +112,13 @@ CREATE TABLE `moduls` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `moduls`
+--
+
+INSERT INTO `moduls` (`modul_id`, `id_major`, `id_instructor`, `modul_name`, `created_at`, `updated_at`) VALUES
+(24, 4, 7, 'CSS', '2025-06-10 04:06:44', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -125,6 +132,13 @@ CREATE TABLE `modul_details` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `modul_details`
+--
+
+INSERT INTO `modul_details` (`md_id`, `id_modul`, `md_file`, `created_at`, `updated_at`) VALUES
+(8, 24, '6847af546caf2-Manual BOOK POS.pdf', '2025-06-10 04:06:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -144,8 +158,39 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`role_id`, `role_name`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '2025-06-04 02:25:42', NULL),
-(2, 'User', '2025-06-04 02:25:42', NULL);
+(1, 'Instructor', '2025-06-04 02:25:42', '2025-06-10 07:41:49'),
+(2, 'Student', '2025-06-04 02:25:42', '2025-06-10 07:41:53'),
+(3, 'User', '2025-06-10 07:42:24', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `student_id` int(11) NOT NULL,
+  `id_major` int(11) NOT NULL,
+  `student_name` varchar(50) NOT NULL,
+  `student_gender` tinyint(1) NOT NULL,
+  `student_education` varchar(30) NOT NULL,
+  `student_phone` int(15) NOT NULL,
+  `student_email` varchar(50) NOT NULL,
+  `student_password` varchar(100) NOT NULL,
+  `student_address` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `deleted_at` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`student_id`, `id_major`, `student_name`, `student_gender`, `student_education`, `student_phone`, `student_email`, `student_password`, `student_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7, 4, 'W', 1, 'S1', 2147483647, 'w@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-10 07:40:38', 0),
+(8, 4, 'S', 0, 'S1', 2147483647, 's@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', '2025-06-10 07:40:49', 0),
+(9, 4, 'A', 0, 'S1', 2147483647, 'a@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 7A RT013 RW008', '2025-06-05 03:47:47', '2025-06-10 07:40:53', 0);
 
 -- --------------------------------------------------------
 
@@ -213,6 +258,12 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`role_id`);
 
 --
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`student_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -245,19 +296,25 @@ ALTER TABLE `majors`
 -- AUTO_INCREMENT for table `moduls`
 --
 ALTER TABLE `moduls`
-  MODIFY `modul_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `modul_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `modul_details`
 --
 ALTER TABLE `modul_details`
-  MODIFY `md_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `md_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
