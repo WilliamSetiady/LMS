@@ -23,7 +23,7 @@ $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
         <div class="card">
             <div class="card-body ">
                 <h5 class="card-title">Data Moduls</h5>
-                <?php if ($_role == 1): ?>
+                <?php if (addingModule(1)): ?>
                     <div class="mb-3" align="right">
                         <a href="?page=/mod/add_modul" class="btn btn-success">Add Modul</a>
                     </div>
@@ -36,7 +36,9 @@ $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
                                 <th>Title</th>
                                 <th>Instructor</th>
                                 <th>Major</th>
-                                <th>Action</th>
+                                <?php if ($_role == 1): ?>
+                                    <th>Action</th>
+                                <?php endif ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,13 +51,15 @@ $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
                                     <td><?= $mod['instructor_name'] ?></td>
                                     <td><?= $mod['major_name'] ?></td>
                                     <!-- <td><?= $mod['role_name'] ?></td> -->
-                                    <td class="d-flex justify-content-center">
-                                        <a href="?page=/mod/add_modul&detail=<?= $mod['modul_id'] ?>"
-                                            class="btn btn-primary me-2 ms-2">Details</a>
-                                        <a onclick="return confirm('Are you Sure want to delete this data??')"
-                                            href="?page=/mod/add_modul&delete=<?= $mod['modul_id'] ?>"
-                                            class="btn btn-danger me-2 ms-2">Delete</a>
-                                    </td>
+                                    <?php if (addingModule(1)): ?>
+                                        <td class="d-flex justify-content-center">
+                                            <a href="?page=/mod/add_modul&detail=<?= $mod['modul_id'] ?>"
+                                                class="btn btn-primary me-2 ms-2">Details</a>
+                                            <a onclick="return confirm('Are you Sure want to delete this data??')"
+                                                href="?page=/mod/add_modul&delete=<?= $mod['modul_id'] ?>"
+                                                class="btn btn-danger me-2 ms-2">Delete</a>
+                                        </td>
+                                    <?php endif ?>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

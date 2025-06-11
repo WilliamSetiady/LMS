@@ -36,13 +36,15 @@ if (isset($_POST['user_email'])) {
             : '';
         // $_SESSION['USER_NAME'] = isset($role) ? ($role == 1) ? $rowLogin['instructor_name'] : ($role == 2) ? $rowLogin['student_name'] : $rowLogin['user_name'] : '';
         $_SESSION['ID_ROLE'] = $role;
+
         header("location:home.php");
     } else {
         header("location:index.php?login=error");
     }
 }
 
-
+$queryRoles = mysqli_query($config, "SELECT * FROM roles ORDER BY role_id ASC");
+$rowRoles = mysqli_fetch_all($queryRoles, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -137,9 +139,14 @@ if (isset($_POST['user_email'])) {
                                             <label for="yourPassword" class="form-label">Password</label>
                                             <select name="role" id="yourRole" class="form-control" required>
                                                 <option value="">Login as</option>
-                                                <option value="1">Instructor</option>
+                                                <?php foreach ($rowRoles as $roles): ?>
+                                                    <option value="<?= $roles['role_id'] ?>"><?= $roles['role_name'] ?>
+                                                    </option>
+                                                <?php endforeach ?>
+                                                <!-- <option value="1">Instructor</option>
                                                 <option value="2">Student</option>
-                                                <option value="3">User</option>
+                                                <option value="3">User</option> -->
+                                                <option value="10">Else</option>
                                             </select>
                                             <div class="invalid-feedback">Please select your Role!</div>
                                         </div>

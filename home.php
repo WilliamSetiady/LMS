@@ -9,6 +9,7 @@ if (!$_name) {
     header("location:index.php?access=failed");
 }
 include("config/connection.php");
+include("setting_role.php");
 ?>
 
 <!DOCTYPE html>

@@ -20,7 +20,7 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
 
             // print_r($idMenu);
             // die;
-            $querySubMenu = mysqli_query($config, "SELECT * FROM menus WHERE parent_id='$idMenu' ORDER BY menu_order ASC");
+            $querySubMenu = mysqli_query($config, "SELECT * FROM menus WHERE parent_id=$idMenu ORDER BY menu_order ASC");
             // $row = mysqli_fetch_all($querySubMenu, MYSQLI_ASSOC);
             // var_dump($row);
             // var_dump($querySubMenu);
@@ -37,7 +37,7 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
                         <?php while ($rowSubMenu = mysqli_fetch_assoc($querySubMenu)): ?>
                             <li>
                                 <a href="?page=<?= $rowSubMenu['menu_url'] ?>">
-                                    <i class="<?= $rowSubMenu['menu_icon'] ?>"></i><span><?= $rowSubMenu['menu_name'] ?></span>
+                                    <i class=<?= $rowSubMenu['menu_icon'] ?>></i><span><?= $rowSubMenu['menu_name'] ?></span>
                                 </a>
                             </li>
                         <?php endwhile ?>
@@ -65,8 +65,8 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
                 </li><!-- End Components Nav -->
             <?php elseif (!empty($mainMenu['menu_url'])): ?>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="<?= $mainMenu['menu_url'] ?>">
-                        <i class="<?= $mainMenu['menu_icon'] ?>"></i>
+                    <a class="nav-linkemollapsed" href="<?= $mainMenu['menu_url'] ?>">
+                        <i class="bi bi-grid"></i>
                         <span><?= $mainMenu['menu_name'] ?></span>
                     </a>
                 </li>

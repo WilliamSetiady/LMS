@@ -2,6 +2,7 @@
 $instructorId = isset($_GET['edit']) ? $_GET['edit'] : '';
 if (isset($_POST['save'])) {
     //ada tidak parameter bernama edit, kalau ada jalankan perintah edit, jika tidak maka akan menyimpan baru
+    $idRole = 1;
     $instName = $_POST['instructor_name'];
     $instGender = $_POST['instructor_gender'];
     $instEd = $_POST['instructor_education'];
@@ -10,7 +11,7 @@ if (isset($_POST['save'])) {
     $instPassword = sha1($_POST['instructor_password']);
     $instAddr = $_POST['instructor_address'];
     $instructorId = isset($_GET['edit']) ? $_GET['edit'] : '';
-    $queryInsert = mysqli_query($config, "INSERT INTO instructors (instructor_name, instructor_gender, instructor_education, instructor_phone, instructor_email, instructor_password instructor_address) VALUES ('$instName','$instGender', '$instEd', '$instPhone', '$instEmail', '$instPassword' '$instAddr')");
+    $queryInsert = mysqli_query($config, "INSERT INTO instructors (id_role, instructor_name, instructor_gender, instructor_education, instructor_phone, instructor_email, instructor_password instructor_address) VALUES ('$idRole', '$instName','$instGender', '$instEd', '$instPhone', '$instEmail', '$instPassword' '$instAddr')");
     header("location:?page=/instruct/instructor&add=success");
 }
 if (isset($_GET['edit'])) {
@@ -19,6 +20,7 @@ if (isset($_GET['edit'])) {
 }
 
 if (isset($_POST['edit'])) {
+    $idRole = 1;
     $instName = $_POST['instructor_name'];
     $instGender = $_POST['instructor_gender'];
     $instEd = $_POST['instructor_education'];
@@ -26,7 +28,7 @@ if (isset($_POST['edit'])) {
     $instEmail = $_POST['instructor_email'];
     $instPassword = isset($_POST['instructor_password']) ? sha1($_POST['instructor_password']) : $rowEdit['instructor_password'];
     $instAddr = $_POST['instructor_address'];
-    $queryUpdate = mysqli_query($config, "UPDATE instructors SET instructor_name='$instName', instructor_gender='$instGender', instructor_education='$instEd', instructor_phone='$instPhone', instructor_email='$instEmail', instructor_password='$instPassword', instructor_address='$instAddr' WHERE instructor_id = $instructorId");
+    $queryUpdate = mysqli_query($config, "UPDATE instructors SET id_role='$idRole', instructor_name='$instName', instructor_gender='$instGender', instructor_education='$instEd', instructor_phone='$instPhone', instructor_email='$instEmail', instructor_password='$instPassword', instructor_address='$instAddr' WHERE instructor_id = $instructorId");
     header("location:?page=/instruct/instructor&update=success");
 }
 
