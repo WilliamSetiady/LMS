@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2025 at 10:33 AM
+-- Generation Time: Jun 11, 2025 at 10:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `instructors` (
   `instructor_id` int(11) NOT NULL,
+  `id_role` int(11) NOT NULL,
   `instructor_name` varchar(50) NOT NULL,
   `instructor_gender` tinyint(1) NOT NULL,
   `instructor_education` varchar(30) NOT NULL,
@@ -45,10 +46,10 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`instructor_id`, `instructor_name`, `instructor_gender`, `instructor_education`, `instructor_phone`, `instructor_email`, `instructor_password`, `instructor_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'Ted', 1, 'S1', 2147483647, 'ted@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-05 04:31:13', 0),
-(8, 'afa', 0, 'S1', 2147483647, 'afa@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', '2025-06-05 03:50:28', 0),
-(9, 'Afi', 0, 'S1', 2147483647, 'afi@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 7A RT013 RW008', '2025-06-05 03:47:47', '2025-06-05 03:54:36', 0);
+INSERT INTO `instructors` (`instructor_id`, `id_role`, `instructor_name`, `instructor_gender`, `instructor_education`, `instructor_phone`, `instructor_email`, `instructor_password`, `instructor_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7, 1, 'Ted', 1, 'S1', 2147483647, 'ted@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-11 01:57:39', 0),
+(8, 1, 'afa', 0, 'S1', 2147483647, 'afa@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', '2025-06-11 01:34:26', 0),
+(9, 1, 'Afi', 0, 'S1', 2147483647, 'afi@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 7A RT013 RW008', '2025-06-05 03:47:47', '2025-06-11 01:34:24', 0);
 
 -- --------------------------------------------------------
 
@@ -100,6 +101,36 @@ INSERT INTO `majors` (`major_id`, `major_name`, `created_at`, `updated_at`, `del
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menus`
+--
+
+CREATE TABLE `menus` (
+  `menu_id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `menu_name` varchar(50) NOT NULL,
+  `menu_icon` varchar(50) NOT NULL,
+  `menu_url` varchar(100) DEFAULT NULL,
+  `menu_order` int(5) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`menu_id`, `parent_id`, `menu_name`, `menu_icon`, `menu_url`, `menu_order`, `created_at`, `updated_at`) VALUES
+(1, 0, 'Master Data', 'bi bi-menu-button-wide', '', 2, '2025-06-11 04:41:34', '2025-06-11 04:45:47'),
+(2, 0, 'Dashboard', 'bi bi-grid', 'home.php', 1, '2025-06-11 05:12:51', '2025-06-11 07:55:44'),
+(7, 1, 'Instructor', 'bi bi-circle', 'instruct/instructor', 1, '2025-06-11 06:49:48', '2025-06-11 07:59:43'),
+(8, 1, 'Major', 'bi bi-circle', 'maj/major', 2, '2025-06-11 07:17:52', '2025-06-11 07:18:50'),
+(9, 1, 'Menu', 'bi bi-circle', 'mnu/menu', 3, '2025-06-11 07:32:51', NULL),
+(10, 1, 'Role', 'bi bi-circle', 'rol/role', 4, '2025-06-11 07:33:24', '2025-06-11 08:10:44'),
+(11, 1, 'User', 'bi bi-circle', 'usr/user', 5, '2025-06-11 07:34:25', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `moduls`
 --
 
@@ -117,7 +148,8 @@ CREATE TABLE `moduls` (
 --
 
 INSERT INTO `moduls` (`modul_id`, `id_major`, `id_instructor`, `modul_name`, `created_at`, `updated_at`) VALUES
-(24, 4, 7, 'CSS', '2025-06-10 04:06:44', NULL);
+(24, 4, 7, 'CSS', '2025-06-10 04:06:44', NULL),
+(25, 5, 7, 'Basic', '2025-06-11 02:34:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -138,7 +170,8 @@ CREATE TABLE `modul_details` (
 --
 
 INSERT INTO `modul_details` (`md_id`, `id_modul`, `md_file`, `created_at`, `updated_at`) VALUES
-(8, 24, '6847af546caf2-Manual BOOK POS.pdf', '2025-06-10 04:06:44', NULL);
+(8, 24, '6847af546caf2-Manual BOOK POS.pdf', '2025-06-10 04:06:44', NULL),
+(9, 25, '6848eb1f2281d-Manual BOOK POS.pdf', '2025-06-11 02:34:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -160,7 +193,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`role_id`, `role_name`, `created_at`, `updated_at`) VALUES
 (1, 'Instructor', '2025-06-04 02:25:42', '2025-06-10 07:41:49'),
 (2, 'Student', '2025-06-04 02:25:42', '2025-06-10 07:41:53'),
-(3, 'User', '2025-06-10 07:42:24', NULL);
+(3, 'User', '2025-06-10 07:42:24', NULL),
+(4, 'PIC', '2025-06-11 01:21:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -188,7 +222,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `id_major`, `student_name`, `student_gender`, `student_education`, `student_phone`, `student_email`, `student_password`, `student_address`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 4, 'W', 1, 'S1', 2147483647, 'w@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-10 07:40:38', 0),
+(7, 4, 'W', 1, 'S1', 2147483647, 'w@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 5A RT013 RW008', '2025-06-04 08:15:44', '2025-06-11 01:15:05', 0),
 (8, 4, 'S', 0, 'S1', 2147483647, 's@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Jalan 6A RT013 RW008', '2025-06-04 08:15:57', '2025-06-10 07:40:49', 0),
 (9, 4, 'A', 0, 'S1', 2147483647, 'a@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'Jalan 7A RT013 RW008', '2025-06-05 03:47:47', '2025-06-10 07:40:53', 0);
 
@@ -238,6 +272,12 @@ ALTER TABLE `instructor_major`
 --
 ALTER TABLE `majors`
   ADD PRIMARY KEY (`major_id`);
+
+--
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`menu_id`);
 
 --
 -- Indexes for table `moduls`
@@ -293,22 +333,28 @@ ALTER TABLE `majors`
   MODIFY `major_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `moduls`
 --
 ALTER TABLE `moduls`
-  MODIFY `modul_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `modul_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `modul_details`
 --
 ALTER TABLE `modul_details`
-  MODIFY `md_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `md_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `students`
