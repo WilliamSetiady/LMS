@@ -30,6 +30,8 @@ $row = mysqli_fetch_all($query, MYSQLI_ASSOC);
                                     <td><?= $role['user_email'] ?></td> -->
                                     <td><?= $role['role_name'] ?></td>
                                     <td class="d-flex justify-content-center">
+                                        <a href="?page=/rol/add_role&add_role_menu=<?= $role['role_id'] ?>"
+                                            class="btn btn-info me-2 ms-2">Access</a>
                                         <a href="?page=/rol/add_role&edit=<?= $role['role_id'] ?>"
                                             class="btn btn-primary me-2 ms-2">Edit</a>
                                         <a onclick="return confirm('Are you Sure Want to Delete This Data??')"

@@ -50,7 +50,7 @@ if (isset($_GET['edit'])) {
         $menuIcon = $_POST['menu_icon'];
         $menuUrl = $_POST['menu_url'];
         $menuOrder = $_POST['menu_order'];
-        $update = mysqli_query($config, "UPDATE menus SET menu_name='$menuName', parent_id='$parentId', menu_icon='$menuIcon', menu_order='$menuOrder' WHERE menu_id='$edit' ");
+        $update = mysqli_query($config, "UPDATE menus SET menu_name='$menuName', parent_id='$parentId', menu_icon='$menuIcon', menu_url='$menuUrl', menu_order='$menuOrder' WHERE menu_id='$edit' ");
         header("location:?page=/mnu/menu&edit=success");
     }
 }

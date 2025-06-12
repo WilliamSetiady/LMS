@@ -1,6 +1,11 @@
 <?php
-
-$queryMainMenu = mysqli_query($config, "SELECT * FROM menus WHERE parent_id=0 OR parent_id='' ");
+$_roles = isset($_SESSION['ID_ROLE']) ? $_SESSION['ID_ROLE'] : '';
+$queryMainMenu = mysqli_query($config, "SELECT DISTINCT menus.* FROM menus 
+                                                                JOIN menu_roles ON menus.menu_id = menu_roles.id_menu
+                                                                JOIN roles ON roles.role_id = menu_roles.id_role
+                                                                WHERE menu_roles.id_role = '$_roles' 
+                                                                AND (parent_id=0 OR parent_id='')
+                                                                ORDER BY menu_order ASC");
 $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
 
 ?>
@@ -20,7 +25,12 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
 
             // print_r($idMenu);
             // die;
-            $querySubMenu = mysqli_query($config, "SELECT * FROM menus WHERE parent_id='$idMenu' ORDER BY menu_order ASC");
+            $querySubMenu = mysqli_query($config, "SELECT DISTINCT menus.* FROM menus 
+                                                                            JOIN menu_roles ON menus.menu_id = menu_roles.id_menu
+                                                                            JOIN roles ON roles.role_id = menu_roles.id_role
+                                                                            WHERE menu_roles.id_role = '$_roles' 
+                                                                            AND (parent_id='$idMenu') 
+                                                                            ORDER BY menu_order ASC");
             // $row = mysqli_fetch_all($querySubMenu, MYSQLI_ASSOC);
             // var_dump($row);
             // var_dump($querySubMenu);
@@ -41,26 +51,7 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
                                 </a>
                             </li>
                         <?php endwhile ?>
-                        <!-- <li>
-                            <a href="?page=/maj/major">
-                                <i class="bi bi-circle"></i><span>Major</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="?page=/mnu/menu">
-                                <i class="bi bi-circle"></i><span>Menu</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="?page=/rol/role">
-                                <i class="bi bi-circle"></i><span>Role</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="?page=/usr/user">
-                                <i class="bi bi-circle"></i><span>User</span>
-                            </a>
-                        </li> -->
+
                     </ul>
                 </li><!-- End Components Nav -->
             <?php elseif (!empty($mainMenu['menu_url'])): ?>
@@ -72,14 +63,10 @@ $rowMainMenu = mysqli_fetch_all($queryMainMenu, MYSQLI_ASSOC);
                 </li>
             <?php endif ?>
         <?php endforeach ?>
-        <li class="nav-heading">Transaction</li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="?page=/mod/moduls">
-                <i class="bi bi-book"></i>
-                <span>Moduls</span>
-            </a>
-        </li><!-- End Profile Page Nav -->
+
+
+        <!-- End Profile Page Nav -->
     </ul>
 
 </aside>

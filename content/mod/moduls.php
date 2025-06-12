@@ -3,7 +3,7 @@
 // $rowUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
 $id_user = isset($_SESSION['ID_USER']) ? $_SESSION['ID_USER'] : '';
 $rowStudent = mysqli_fetch_assoc(mysqli_query($config, "SELECT * FROM students WHERE student_id = '$id_user'"));
-$id_major = $rowStudent['id_major'];
+$id_major = isset($rowStudent['id_major']);
 
 if ($_role == 2) {
     $where = "WHERE moduls.id_major='$id_major'";

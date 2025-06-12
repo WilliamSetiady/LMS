@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2025 at 10:17 AM
+-- Generation Time: Jun 12, 2025 at 09:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -120,13 +120,38 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`menu_id`, `parent_id`, `menu_name`, `menu_icon`, `menu_url`, `menu_order`, `created_at`, `updated_at`) VALUES
-(1, 0, 'Master Data', 'bi bi-menu-button-wide', '', 2, '2025-06-11 04:41:34', '2025-06-11 04:45:47'),
-(2, 0, 'Dashboard', 'bi bi-grid', 'home.php', 1, '2025-06-11 05:12:51', '2025-06-11 07:55:44'),
-(7, 1, 'Instructor', 'bi bi-circle', 'instruct/instructor', 1, '2025-06-11 06:49:48', '2025-06-11 07:59:43'),
-(8, 1, 'Major', 'bi bi-circle', 'maj/major', 2, '2025-06-11 07:17:52', '2025-06-11 07:18:50'),
-(9, 1, 'Menu', 'bi bi-circle', 'mnu/menu', 3, '2025-06-11 07:32:51', NULL),
-(10, 1, 'Role', 'bi bi-circle', 'rol/role', 4, '2025-06-11 07:33:24', '2025-06-11 08:10:44'),
-(11, 1, 'User', 'bi bi-circle', 'usr/user', 5, '2025-06-11 07:34:25', NULL);
+(1, 0, 'Dashboard', 'bi bi-grid', 'home.php', 1, '2025-06-11 05:12:51', '2025-06-12 00:24:06'),
+(2, 0, 'Master Data', 'bi bi-menu-button-wide', '', 2, '2025-06-11 04:41:34', '2025-06-12 00:24:04'),
+(7, 2, 'Instructor', 'bi bi-circle', 'instruct/instructor', 1, '2025-06-11 06:49:48', '2025-06-12 00:24:32'),
+(8, 2, 'Major', 'bi bi-circle', 'maj/major', 2, '2025-06-11 07:17:52', '2025-06-12 00:24:35'),
+(9, 2, 'Menu', 'bi bi-circle', 'mnu/menu', 3, '2025-06-11 07:32:51', '2025-06-12 00:24:38'),
+(10, 2, 'Role', 'bi bi-circle', 'rol/role', 4, '2025-06-11 07:33:24', '2025-06-12 00:24:40'),
+(11, 2, 'User', 'bi bi-circle', 'usr/user', 5, '2025-06-11 07:34:25', '2025-06-12 00:24:43'),
+(12, 0, 'Moduls', 'bi bi-book', '?page=/mod/moduls', 3, '2025-06-12 02:33:42', '2025-06-12 05:13:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_roles`
+--
+
+CREATE TABLE `menu_roles` (
+  `mr_id` int(11) NOT NULL,
+  `id_role` int(11) NOT NULL,
+  `id_menu` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menu_roles`
+--
+
+INSERT INTO `menu_roles` (`mr_id`, `id_role`, `id_menu`, `created_at`, `updated_at`) VALUES
+(79, 2, 1, '2025-06-12 07:38:16', NULL),
+(80, 2, 12, '2025-06-12 07:38:16', NULL),
+(96, 1, 1, '2025-06-12 07:51:47', NULL),
+(97, 1, 12, '2025-06-12 07:51:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -248,8 +273,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `id_role`, `user_name`, `user_email`, `user_password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'Will', 'admin@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2025-06-03 02:51:29', '2025-06-04 03:11:06', 0),
-(2, NULL, 'S', 's@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '2025-06-03 06:46:11', '2025-06-04 01:39:00', 0);
+(1, NULL, 'Will', 'admin@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2025-06-03 02:51:29', '2025-06-12 04:22:34', 0),
+(2, NULL, 'S', 's@gmail.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '2025-06-03 06:46:11', '2025-06-12 01:06:04', 1);
 
 --
 -- Indexes for dumped tables
@@ -278,6 +303,12 @@ ALTER TABLE `majors`
 --
 ALTER TABLE `menus`
   ADD PRIMARY KEY (`menu_id`);
+
+--
+-- Indexes for table `menu_roles`
+--
+ALTER TABLE `menu_roles`
+  ADD PRIMARY KEY (`mr_id`);
 
 --
 -- Indexes for table `moduls`
@@ -336,7 +367,13 @@ ALTER TABLE `majors`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `menu_roles`
+--
+ALTER TABLE `menu_roles`
+  MODIFY `mr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `moduls`
